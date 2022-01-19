@@ -3,13 +3,26 @@ import { Link } from 'react-router-dom';
 import { getProductsFromQuery } from '../services/api';
 import Card from '../components/Card';
 
+import { getCategories } from '../services/api';
+// Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
       productsList: [],
       inputText: '',
+      categories: [],
     };
+    this.updateCategories = this.updateCategories.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateCategories();
+  }
+
+  async updateCategories() {
+    const categories = await getCategories();
+    this.setState({ categories });
   }
 
   handleChange = (event) => {
@@ -23,7 +36,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { productsList } = this.state;
+    const { productsList, categories } = this.state;
     const initailMessage = (
       <span
         data-testid="home-initial-message"
@@ -33,7 +46,20 @@ class Home extends React.Component {
 
     return (
       <div>
-        { productsList.length === 0 && initailMessage }
+        <div className="fixMessege">
+          { productsList.length === 0 && initailMessage }
+        </div>
+        <div className="fixButton">
+          {categories.map(({ id, name }) => (
+            <button
+              type="button"
+              data-testid="category"
+              key={ id }
+            >
+              { name }
+            </button>
+          ))}
+        </div>
         <Link to="/cart" data-testid="shopping-cart-button">
           <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
         </Link>
@@ -56,6 +82,7 @@ class Home extends React.Component {
           title={ product.title }
           price={ product.price }
         />))}
+
       </div>
     );
   }
