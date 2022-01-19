@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 // Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
@@ -29,7 +30,6 @@ class Home extends React.Component {
         Digite algum termo de pesquisa ou escolha uma categoria.
       </span>
     );
-
     return (
 
       <div>
@@ -48,6 +48,9 @@ class Home extends React.Component {
 
             </button>
           ))}
+          <Link to="/cart" data-testid="shopping-cart-button">
+            <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
+          </Link>
         </div>
       </div>
     );
