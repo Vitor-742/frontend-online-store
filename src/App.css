@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+.fixButton {
+  display: grid;
+  grid-row-gap: 5px;
+  margin-top: 20px;
+  width: 150px;
+}
+
+.fixMessege {
+  font-size: 20px;
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
