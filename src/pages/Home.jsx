@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getProductsFromQuery } from '../services/api';
+import { getProductsFromQuery, getCategories } from '../services/api';
 import Card from '../components/Card';
 
-import { getCategories } from '../services/api';
 // Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
   constructor() {
@@ -20,11 +19,6 @@ class Home extends React.Component {
     this.updateCategories();
   }
 
-  async updateCategories() {
-    const categories = await getCategories();
-    this.setState({ categories });
-  }
-
   handleChange = (event) => {
     this.setState({ inputText: event.target.value });
   }
@@ -33,6 +27,11 @@ class Home extends React.Component {
     const { inputText } = this.state;
     const requisicao = await getProductsFromQuery(inputText);
     this.setState({ productsList: requisicao });
+  }
+
+  async updateCategories() {
+    const categories = await getCategories();
+    this.setState({ categories });
   }
 
   render() {
