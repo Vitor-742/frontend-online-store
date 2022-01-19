@@ -1,6 +1,6 @@
 import React from 'react';
 import { getCategories } from '../services/api';
-
+// Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
   constructor() {
     super();
