@@ -31,7 +31,6 @@ class Home extends React.Component {
       </span>
     );
     return (
-
       <div>
         <div className="fixMessege">
           { productsList.length === 0 && initailMessage }
@@ -43,15 +42,14 @@ class Home extends React.Component {
               data-testid="category"
               key={ id }
             >
-
               { name }
-
             </button>
           ))}
-          <Link to="/cart" data-testid="shopping-cart-button">
-            <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
-          </Link>
         </div>
+        <Link to="/cart" data-testid="shopping-cart-button">
+          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
+        </Link>
+
       </div>
     );
   }
