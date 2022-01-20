@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import {
+  getCategories,
+  getProductsFromQuery,
+  getProductsFromCategory,
+} from '../services/api';
+import Card from '../components/Card';
 
 // Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
@@ -8,6 +13,7 @@ class Home extends React.Component {
     super();
     this.state = {
       productsList: [],
+      inputText: '',
       categories: [],
     };
     this.updateCategories = this.updateCategories.bind(this);
@@ -20,9 +26,19 @@ class Home extends React.Component {
   selectCategory = async ({ target: { innerHTML } }) => {
     const { categories } = this.state;
     const categoryId = categories.find(({ name }) => name === innerHTML).id;
-    const products = await getProductsFromCategoryAndQuery(categoryId)
+    const products = await getProductsFromCategory(categoryId)
       .then((response) => response.results);
     this.setState({ productsList: products });
+  }
+
+  handleChange = (event) => {
+    this.setState({ inputText: event.target.value });
+  }
+
+  handleClick = async () => {
+    const { inputText } = this.state;
+    const requisicao = await getProductsFromQuery(inputText);
+    this.setState({ productsList: requisicao });
   }
 
   async updateCategories() {
@@ -32,7 +48,7 @@ class Home extends React.Component {
 
   render() {
     const { productsList, categories } = this.state;
-    const initailMessage = (
+    const initialMessage = (
       <span
         data-testid="home-initial-message"
       >
@@ -41,9 +57,21 @@ class Home extends React.Component {
     );
     return (
       <div>
-        <div className="fixMessege">
-          { productsList.length === 0 && initailMessage }
-        </div>
+        <input
+          data-testid="query-input"
+          type="text"
+          onChange={ this.handleChange }
+        />
+        <button
+          data-testid="query-button"
+          type="button"
+          onClick={ this.handleClick }
+        >
+          Buscar
+        </button>
+        <Link to="/cart" data-testid="shopping-cart-button">
+          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
+        </Link>
         <div className="fixButton">
           {categories.map(({ id, name }) => (
             <button
@@ -56,10 +84,13 @@ class Home extends React.Component {
             </button>
           ))}
         </div>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
-        </Link>
-
+        <div className="fixMessege">
+          { productsList.length === 0
+            ? initialMessage
+            : productsList.map(({ price, thumbnail, title, id }) => (
+              <Card key={ id } image={ thumbnail } title={ title } price={ price } />
+            ))}
+        </div>
       </div>
     );
   }
