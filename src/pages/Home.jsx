@@ -88,7 +88,13 @@ class Home extends React.Component {
           { productsList.length === 0
             ? initialMessage
             : productsList.map(({ price, thumbnail, title, id }) => (
-              <Card key={ id } image={ thumbnail } title={ title } price={ price } />
+              <Card
+                key={ id }
+                id={ id }
+                image={ thumbnail }
+                title={ title }
+                price={ price }
+              />
             ))}
         </section>
       </main>

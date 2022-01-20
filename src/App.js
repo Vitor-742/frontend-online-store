@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Product from './pages/Product';
 
 class App extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={ Home } />
           <Route path="/cart" component={ Cart } />
+          <Route path="/product" component={ Product } />
         </Switch>
       </BrowserRouter>
     );
