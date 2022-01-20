@@ -21,8 +21,8 @@ export async function getProductsFromQuery(query) {
   return retorno;
 }
 
-export async function getProductsFromProductId(id) {
-  const retorno = await fetch(`https://api.mercadolibre.com/items/${id}`)
-  .then((response) => response.json())
-  return retorno
+export async function getProductDetails(id) {
+  const result = await fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then((response) => response.json());
+  return result;
 }

@@ -41,15 +41,15 @@ class Home extends React.Component {
     this.setState({ productsList: requisicao });
   }
 
+  addCart = (id) => {
+    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '');
+    const aux = `${localStorage.getItem('cartIds')}-${id}`;
+    localStorage.setItem('cartIds', aux);
+  }
+
   async updateCategories() {
     const categories = await getCategories();
     this.setState({ categories });
-  }
-
-  addCart = (id) => {
-    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '')
-    const aux = `${localStorage.getItem('cartIds')}-${id}`
-    localStorage.setItem('cartIds', aux)
   }
 
   render() {
@@ -94,7 +94,14 @@ class Home extends React.Component {
           { productsList.length === 0
             ? initialMessage
             : productsList.map(({ price, thumbnail, title, id }) => (
-              <Card key={ id } id={ id } image={ thumbnail } title={ title } price={ price } addCart={ this.addCart } />
+              <Card
+                key={ id }
+                id={ id }
+                image={ thumbnail }
+                title={ title }
+                price={ price }
+                addCart={ this.addCart }
+              />
             ))}
         </section>
       </main>
