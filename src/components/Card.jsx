@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class Card extends Component {
   render() {
-    const { image, title, price } = this.props;
+    const { image, title, price, addCart, id } = this.props;
 
     return (
       <div data-testid="product">
@@ -13,6 +13,7 @@ export default class Card extends Component {
         />
         <h3>{ title }</h3>
         <p>{ price }</p>
+        <button data-testid="product-add-to-cart" onClick={ () => addCart(id) }>Adicionar ao carrinho</button>
       </div>
     );
   }
