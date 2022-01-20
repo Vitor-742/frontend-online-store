@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getProductsFromQuery, getCategories } from '../services/api';
+import {
+  getCategories,
+  getProductsFromQuery,
+  getProductsFromCategory,
+} from '../services/api';
 import Card from '../components/Card';
 
 // Camila Zegarra contribuiu com esse código através de vídeo conferência
@@ -17,6 +21,14 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.updateCategories();
+  }
+
+  selectCategory = async ({ target: { innerHTML } }) => {
+    const { categories } = this.state;
+    const categoryId = categories.find(({ name }) => name === innerHTML).id;
+    const products = await getProductsFromCategory(categoryId)
+      .then((response) => response.results);
+    this.setState({ productsList: products });
   }
 
   handleChange = (event) => {
@@ -36,32 +48,15 @@ class Home extends React.Component {
 
   render() {
     const { productsList, categories } = this.state;
-    const initailMessage = (
+    const initialMessage = (
       <span
         data-testid="home-initial-message"
       >
         Digite algum termo de pesquisa ou escolha uma categoria.
-      </span>);
-
+      </span>
+    );
     return (
-      <div>
-        <div className="fixMessege">
-          { productsList.length === 0 && initailMessage }
-        </div>
-        <div className="fixButton">
-          {categories.map(({ id, name }) => (
-            <button
-              type="button"
-              data-testid="category"
-              key={ id }
-            >
-              { name }
-            </button>
-          ))}
-        </div>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
-        </Link>
+      <main className="home">
         <input
           data-testid="query-input"
           type="text"
@@ -74,15 +69,29 @@ class Home extends React.Component {
         >
           Buscar
         </button>
-
-        { productsList.length !== 0 && productsList.map((product) => (<Card
-          key={ product.id }
-          image={ product.thumbnail }
-          title={ product.title }
-          price={ product.price }
-        />))}
-
-      </div>
+        <Link to="/cart" data-testid="shopping-cart-button">
+          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
+        </Link>
+        <section className="categories">
+          {categories.map(({ id, name }) => (
+            <button
+              type="button"
+              data-testid="category"
+              key={ id }
+              onClick={ this.selectCategory }
+            >
+              { name }
+            </button>
+          ))}
+        </section>
+        <section className="products">
+          { productsList.length === 0
+            ? initialMessage
+            : productsList.map(({ price, thumbnail, title, id }) => (
+              <Card key={ id } image={ thumbnail } title={ title } price={ price } />
+            ))}
+        </section>
+      </main>
     );
   }
 }
