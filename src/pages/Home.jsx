@@ -56,7 +56,7 @@ class Home extends React.Component {
       </span>
     );
     return (
-      <div>
+      <main className="home">
         <input
           data-testid="query-input"
           type="text"
@@ -72,7 +72,7 @@ class Home extends React.Component {
         <Link to="/cart" data-testid="shopping-cart-button">
           <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
         </Link>
-        <div className="fixButton">
+        <section className="categories">
           {categories.map(({ id, name }) => (
             <button
               type="button"
@@ -83,15 +83,15 @@ class Home extends React.Component {
               { name }
             </button>
           ))}
-        </div>
-        <div className="fixMessege">
+        </section>
+        <section className="products">
           { productsList.length === 0
             ? initialMessage
             : productsList.map(({ price, thumbnail, title, id }) => (
               <Card key={ id } image={ thumbnail } title={ title } price={ price } />
             ))}
-        </div>
-      </div>
+        </section>
+      </main>
     );
   }
 }
