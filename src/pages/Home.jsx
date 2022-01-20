@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+
 // Camila Zegarra contribuiu com esse código através de vídeo conferência
 class Home extends React.Component {
   constructor() {
@@ -14,6 +15,14 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.updateCategories();
+  }
+
+  selectCategory = async ({ target: { innerHTML } }) => {
+    const { categories } = this.state;
+    const categoryId = categories.find(({ name }) => name === innerHTML).id;
+    const products = await getProductsFromCategoryAndQuery(categoryId)
+      .then((response) => response.results);
+    this.setState({ productsList: products });
   }
 
   async updateCategories() {
@@ -41,6 +50,7 @@ class Home extends React.Component {
               type="button"
               data-testid="category"
               key={ id }
+              onClick={ this.selectCategory }
             >
               { name }
             </button>
