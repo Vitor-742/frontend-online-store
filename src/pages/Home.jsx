@@ -41,6 +41,12 @@ class Home extends React.Component {
     this.setState({ productsList: requisicao });
   }
 
+  addCart = (id) => {
+    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '');
+    const aux = `${localStorage.getItem('cartIds')}-${id}`;
+    localStorage.setItem('cartIds', aux);
+  }
+
   async updateCategories() {
     const categories = await getCategories();
     this.setState({ categories });
@@ -94,6 +100,7 @@ class Home extends React.Component {
                 image={ thumbnail }
                 title={ title }
                 price={ price }
+                addCart={ this.addCart }
               />
             ))}
         </section>
