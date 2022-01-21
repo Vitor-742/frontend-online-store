@@ -25,10 +25,9 @@ class Cart extends React.Component {
     const { cartIds } = this.state;
     return (
       <div>
-        <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
         { cartIds.length > 0
-         ?  cartIds.map((id) => <CardFav id={ id } key={ id } />)
-         : <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>}
+          ? cartIds.map((id) => <CardFav id={ id } key={ id } />)
+          : <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>}
       </div>
     );
   }
