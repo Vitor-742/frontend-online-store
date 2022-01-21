@@ -13,7 +13,7 @@ class Cart extends React.Component {
     this.setarCartIds();
   }
 
-  setarCartIds() {
+  setarCartIds= () => {
     if (localStorage.getItem('cartIds')) {
       this.setState({
         cartIds: localStorage.getItem('cartIds').split('-').filter((item) => item !== ''),
@@ -26,7 +26,7 @@ class Cart extends React.Component {
     return (
       <div>
         { cartIds.length > 0
-          ? cartIds.map((id) => <CardFav id={ id } key={ id } />)
+          ? cartIds.map((id) => <CardFav id={ id } key={ id } func={ this.setarCartIds } />) 
           : <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>}
       </div>
     );

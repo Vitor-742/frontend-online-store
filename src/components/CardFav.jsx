@@ -29,14 +29,15 @@ class CardFav extends React.Component {
     }
   }  
 
-   removeItem(event) {
+   removeItem= (event) => {
     if (localStorage.getItem('cartIds')) {
         const cartIds= localStorage.getItem('cartIds').split('-').filter((item) => item !== '')
        const filterIds= cartIds.filter((id) => id !== event.target.id)  
-       console.log(filterIds);   
-       console.log(event.target.id);  
-       const aux= filterIds.reduce((acc, item) => `${acc}-${item}`)
+       console.log(filterIds);
+       let aux= [];
+       filterIds.length !== 0 ? aux = filterIds.reduce((acc, item) => `${acc}-${item}`) : aux = filterIds;
        localStorage.setItem('cartIds', aux)
+       this.props.func()
     }
   }
 
@@ -57,11 +58,10 @@ class CardFav extends React.Component {
 
     render() {
       const { loading, produto, productQuantity, id} = this.state;
-      console.log(produto)
       return (
         <div>
           {loading && <p data-testid="shopping-cart-product-name">{produto.title}</p>}
-          <div  data-testid="shopping-cart-product-quantity" >
+          <div>
           <button
           data-testid="product-decrease-quantity"
           type="buton"
@@ -69,7 +69,7 @@ class CardFav extends React.Component {
           onClick={this.handleClick}>
           -
         </button>
-        <p>{productQuantity}</p>
+        <p data-testid="shopping-cart-product-quantity">{productQuantity}</p>
         {loading && 
         <div>
         <button
