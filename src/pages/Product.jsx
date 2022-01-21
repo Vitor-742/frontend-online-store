@@ -86,7 +86,6 @@ class Product extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
     const { match: { params: { id } } } = this.props;
     const {
       product: { title, thumbnail, price },
@@ -166,57 +165,6 @@ class Product extends React.Component {
               ))}
           </section>
         </main>
-=======
-    const { product: { title, thumbnail, price }, rating, comment, email, reviewList } = this.state;
-    const rates = [1, 2, 3, 4, 5];
-    const { match: { params: { id } } } = this.props;
-
-    return (
-      <>
-      <header>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
-        </Link>
-        <h1 data-testid="product-detail-name">{ title }</h1>
-        <h2>{ `$ ${price}` }</h2>
-      </header>
-      <main>
-        <section className="info">
-          <img src={ thumbnail } alt={ title } />
-        </section>
-        <button
-          type="button"
-          data-testid="product-detail-add-to-cart"
-          onClick={ () => this.addCart(id) }
-        >
-          Adicionar ao carrinho
-        </button>
-        <form>
-          <label htmlFor="email">
-            Email:
-            <input id="email" type="email" data-testid="product-detail-email" value={ email } onChange={ this.handleChange } name="email" />
-          </label>
-          <RatingStar
-            array={ rates }
-            rating={ rating }
-            click={ this.handleRanting }
-          />
-          <label htmlFor="comment">
-            <textarea name="comment" id="comment" cols="30" rows="5" placeholder="Comentário (opcional)" value={ comment } onChange={ this.handleChange } data-testid="product-detail-evaluation" />
-          </label>
-          <button type="submit" data-testid="submit-review-btn" onClick={ this.submitReview }>Enviar</button>
-        </form>
-        <section>
-          {reviewList && reviewList.map(({ email, rating, comment }, index) => (
-            <div key={ `${email}${index}` }>
-              <span>{ email }</span>
-              <RatingStar array={ rates } rating={ rating } />
-              {comment && <p>{ comment }</p>}
-            </div>
-          ))}
-        </section>
-      </main>
->>>>>>> 0701b72d271d2c157784e7395eb1ed4a56f1a03f
       </>
     );
   }
