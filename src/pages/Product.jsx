@@ -72,9 +72,11 @@ class Product extends React.Component {
   getCurrentComment = () => {
     Object.keys(form).forEach((key) => {
       if (localStorage.getItem(key)) {
-        key === 'rating'
-          ? this.setState({ [key]: Number(localStorage.getItem(key)) })
-          : this.setState({ [key]: localStorage.getItem(key) });
+        if (key === 'rating') {
+          this.setState({ [key]: Number(localStorage.getItem(key)) });
+        } else {
+          this.setState({ [key]: localStorage.getItem(key) });
+        }
       }
     });
   };
@@ -95,7 +97,7 @@ class Product extends React.Component {
       reviewList,
     } = this.state;
     const rates = [...Array(RATE + 1).keys()].slice(1);
-    //Source: https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n
+    /* Source: https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n */
 
     return (
       <>
@@ -155,12 +157,12 @@ class Product extends React.Component {
             </button>
           </form>
           <section>
-            {reviewList &&
-              reviewList.map(({ email, rating, comment }, index) => (
-                <div key={`${email}${index}`}>
-                  <span>{ email }</span>
-                  <RatingStar array={ rates } rating={ rating } />
-                  {comment && <p>{comment}</p>}
+            {reviewList
+              && reviewList.map((review, index) => (
+                <div key={ `${review.email}${index}` }>
+                  <span>{ review.email }</span>
+                  <RatingStar array={ rates } rating={ review.rating } />
+                  {review.comment && <p>{ review.comment }</p>}
                 </div>
               ))}
           </section>
