@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getProductDetails } from '../services/api';
 import RatingStar from '../components/RantingStar';
 
@@ -78,7 +79,14 @@ class Product extends React.Component {
     });
   };
 
+  addCart = (id) => {
+    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '');
+    const aux = `${localStorage.getItem('cartIds')}-${id}`;
+    localStorage.setItem('cartIds', aux);
+  }
+
   render() {
+    const { match: { params: { id } } } = this.props;
     const {
       product: { title, thumbnail, price },
       rating,
@@ -92,6 +100,9 @@ class Product extends React.Component {
     return (
       <>
         <header>
+          <Link to="/cart" data-testid="shopping-cart-button">
+            <img src="https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f6d2.png" alt="carrinho" />
+          </Link>
           <h1 data-testid="product-detail-name">{title}</h1>
           <h2>{`$ ${price}`}</h2>
         </header>
@@ -99,6 +110,13 @@ class Product extends React.Component {
           <section className="info">
             <img src={ thumbnail } alt={ title } />
           </section>
+          <button
+            type="button"
+            data-testid="product-detail-add-to-cart"
+            onClick={ () => this.addCart(id) }
+          >
+            Adicionar ao carrinho
+          </button>
           <form>
             <label htmlFor="email">
               Email:
