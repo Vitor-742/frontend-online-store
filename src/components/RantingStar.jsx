@@ -10,11 +10,12 @@ class RatingStar extends React.Component {
         {/* Source: https://dev.to/michaelburrows/create-a-custom-react-star-rating-component-5o6 */}
         {array.map((rate) => (
           <button
-            key={rate}
-            data-testid={`${rate}-rating`}
-            name={rate}
+            key={ rate }
+            type="button"
+            data-testid={ `${rate}-rating` }
+            name={ rate }
             onClick={ click }
-            className={rate <= rating ? 'star on' : 'star'}
+            className={ rate <= rating ? 'star on' : 'star' }
           >
             &#9733;
           </button>
