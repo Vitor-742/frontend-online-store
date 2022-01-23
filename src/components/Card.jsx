@@ -12,7 +12,7 @@ export default class Card extends Component {
         <Link to={ `/product/${id}` } data-testid="product-detail-link">
           <div data-testid="product">
             <img src={ image } alt={ title } />
-            <h3>{ title }</h3>
+            <h3 data-testid="shopping-cart-product-name">{ title }</h3>
             <p>{ price }</p>
           </div>
         </Link>
@@ -23,7 +23,7 @@ export default class Card extends Component {
         >
           Adicionar ao carrinho
         </button>
-      </div> // pode ter erro
+      </div>
     );
   }
 }

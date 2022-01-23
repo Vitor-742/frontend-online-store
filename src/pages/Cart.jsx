@@ -6,6 +6,7 @@ class Cart extends React.Component {
     super();
     this.state = {
       cartIds: [],
+      loading: false,
     };
   }
 
@@ -14,18 +15,22 @@ class Cart extends React.Component {
   }
 
   setarCartIds= () => {
-    if (localStorage.getItem('cartIds')) {
-      this.setState({
-        cartIds: localStorage.getItem('cartIds').split('-').filter((item) => item !== ''),
+    if (typeof localStorage.getItem('cartIds') === 'string') {
+      const cartIds = localStorage.getItem('cartIds').split('-').filter((item) => item !== '')
+      this.setState({loading: false}, () => {
+        this.setState({
+        cartIds,
+        loading: true,
       });
+      })
     }
   }
 
   render() {
-    const { cartIds } = this.state;
+    const { cartIds, loading } = this.state;
     return (
       <div>
-        { cartIds.length > 0
+        { cartIds.length > 0 && loading
           ? cartIds.map((id) => <CardFav id={ id } key={ id } func={ this.setarCartIds } />) 
           : <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>}
       </div>
