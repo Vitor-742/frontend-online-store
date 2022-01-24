@@ -10,3 +10,14 @@
   font-size: 20px;
   text-align: center;
 }
+
+.star {
+  background-color: transparent;
+  border: none;
+  color: rgb(184, 183, 183);
+  font-size: xx-large;
+}
+
+.on {
+  color: rgb(228, 209, 39);
+}
