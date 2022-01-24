@@ -14,6 +14,10 @@ class CardFav extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.montaArray();
+  }
+
   handleClick(event) {
     const { name } = event.target;
 
@@ -27,24 +31,24 @@ class CardFav extends React.Component {
         if (productQuantity > 0) this.setState({ productQuantity: productQuantity - 1 });
       });
     }
-  }  
+  }
 
    removeItem= (event) => {
-    if (localStorage.getItem('cartIds')) {
-       const cartIds= localStorage.getItem('cartIds').split('-').filter((item) => item !== '')
-       const filterIds= cartIds.filter((id) => id !== event.target.id)  
-       console.log(filterIds);
-       let aux= [];
-       filterIds.length !== 0 ? aux = filterIds.reduce((acc, item) => `${acc}-${item}`, '-') : aux = filterIds;
-       localStorage.setItem('cartIds', aux)
-    }
-    console.log('a')
-    this.props.func()
-  }
-
-  componentDidMount() {
-    this.montaArray();
-  }
+     const { func } = this.props;
+     if (localStorage.getItem('cartIds')) {
+       const cartIds = localStorage.getItem('cartIds')
+         .split('-')
+         .filter((item) => item !== '');
+       const filterIds = cartIds.filter((id) => id !== event.target.id);
+       let aux = [];
+       if (filterIds.length !== 0) {
+         aux = filterIds
+           .reduce((acc, item) => `${acc}-${item}`, '-');
+       } else aux = filterIds;
+       localStorage.setItem('cartIds', aux);
+     }
+     func();
+   }
 
     montaArray = () => {
       const { id } = this.props;
@@ -61,44 +65,44 @@ class CardFav extends React.Component {
       const { loading, produto, productQuantity } = this.state;
       return (
         <div>
-        { loading
-          && <div>
-          <p data-testid="shopping-cart-product-name">{produto.title}</p>
-          <div>
-          <button
-          data-testid="product-decrease-quantity"
-          type="buton"
-          name="sub"
-          onClick={this.handleClick}>
-          -
-        </button>
-        <p data-testid="shopping-cart-product-quantity">{productQuantity}</p>
-        <button
-          data-testid="product-increase-quantity"
-          type="button"
-          name="add"
-          onClick={this.handleClick}>
-          +
-        </button>
-        <button
-          type="button"
-          onClick= {this.removeItem}
-          id= {produto.id} 
-        >
-          x
-        </button>
-          </div>
-          </div>
-
-        }
+          { loading && (
+            <div>
+              <p data-testid="shopping-cart-product-name">{produto.title}</p>
+              <div>
+                <button
+                  data-testid="product-decrease-quantity"
+                  type="button"
+                  name="sub"
+                  onClick={ this.handleClick }
+                >
+                  -
+                </button>
+                <p data-testid="shopping-cart-product-quantity">{productQuantity}</p>
+                <button
+                  data-testid="product-increase-quantity"
+                  type="button"
+                  name="add"
+                  onClick={ this.handleClick }
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={ this.removeItem }
+                  id={ produto.id }
+                >
+                  x
+                </button>
+              </div>
+            </div>)}
         </div>
-       
       );
     }
 }
 
 CardFav.propTypes = {
   id: PropTypes.string.isRequired,
+  func: PropTypes.func.isRequired,
 };
 
 export default CardFav;

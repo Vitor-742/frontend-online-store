@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 export default class Card extends Component {
-
   render() {
     const { image, title, price, addCart, id } = this.props;
 
