@@ -21,6 +21,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.updateCategories();
+    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '[]');
   }
 
   selectCategory = async ({ target: { innerHTML } }) => {
@@ -42,9 +43,9 @@ class Home extends React.Component {
   }
 
   addCart = (id) => {
-    if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '');
-    const aux = `${localStorage.getItem('cartIds')}-${id}`;
-    localStorage.setItem('cartIds', aux);
+    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id]
+    console.log(aux)
+    localStorage.setItem('cartIds', JSON.stringify(aux));
   }
 
   async updateCategories() {
