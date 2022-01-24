@@ -46,7 +46,7 @@ class Product extends React.Component {
       const { product: { id }, email, rating, comment } = this.state;
       const review = { id, email, rating, comment };
       localStorage.setItem(id, JSON.stringify(review));
-    })
+    });
   }
 
   submitReview = (event) => {
@@ -75,7 +75,7 @@ class Product extends React.Component {
     if (review) {
       Object.keys(form).forEach((key) => {
         this.setState({ [key]: review[key] });
-      })
+      });
     }
   }
 
