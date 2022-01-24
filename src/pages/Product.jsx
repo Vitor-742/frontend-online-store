@@ -79,13 +79,13 @@ class Product extends React.Component {
     }
   }
 
-  addCart = (id) => {
-    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id];
+  addCart = (product) => {
+    const aux = [...JSON.parse(localStorage.getItem('cartIds')), product];
     localStorage.setItem('cartIds', JSON.stringify(aux));
   }
 
   render() {
-    const { match: { params: { id } } } = this.props;
+    /* const { match: { params: { id } } } = this.props; */
     const {
       product: { title, thumbnail, price },
       rating,
@@ -93,6 +93,7 @@ class Product extends React.Component {
       email,
       reviewList,
     } = this.state;
+    const { product } = this.state;
     const rates = [...Array(RATE + 1).keys()].slice(1);
     /* Source: https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n */
 
@@ -112,7 +113,7 @@ class Product extends React.Component {
           <button
             type="button"
             data-testid="product-detail-add-to-cart"
-            onClick={ () => this.addCart(id) }
+            onClick={ () => this.addCart(product) }
           >
             Adicionar ao carrinho
           </button>

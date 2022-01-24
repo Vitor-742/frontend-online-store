@@ -42,9 +42,8 @@ class Home extends React.Component {
     this.setState({ productsList: requisicao });
   }
 
-  addCart = (id) => {
-    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id];
-    console.log(aux);
+  addCart = (product) => {
+    const aux = [...JSON.parse(localStorage.getItem('cartIds')), product];
     localStorage.setItem('cartIds', JSON.stringify(aux));
   }
 
@@ -94,13 +93,10 @@ class Home extends React.Component {
         <section className="products">
           { productsList.length === 0
             ? initialMessage
-            : productsList.map(({ price, thumbnail, title, id }) => (
+            : productsList.map((product) => (
               <Card
-                key={ id }
-                id={ id }
-                image={ thumbnail }
-                title={ title }
-                price={ price }
+                key={ product.id }
+                product={ product }
                 addCart={ this.addCart }
               />
             ))}
