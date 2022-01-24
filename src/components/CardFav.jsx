@@ -32,7 +32,7 @@ class CardFav extends React.Component {
    removeItem = (event) => {
      const { func } = this.props;
      const cartIds = JSON.parse(localStorage.getItem('cartIds'));
-     const filterIds = cartIds.filter((id) => id !== event.target.id);
+     const filterIds = cartIds.filter((product) => product.id !== event.target.id);
      localStorage.setItem('cartIds', JSON.stringify(filterIds));
      func();
    }
