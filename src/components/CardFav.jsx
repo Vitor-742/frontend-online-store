@@ -50,7 +50,7 @@ class CardFav extends React.Component {
     }
 
     render() {
-      const { loading, produto, productQuantity } = this.state;
+      const { loading, produto, productQuantity } = this.state;// test
       return (
         <div>
           { loading && (
