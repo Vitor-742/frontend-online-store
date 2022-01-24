@@ -24,7 +24,7 @@ class Product extends React.Component {
   componentDidMount() {
     this.getDetails();
     this.getReviews();
-    this.getCurrentComment();
+    this.getUnfinishedComment();
   }
 
   getDetails = async () => {
@@ -37,49 +37,47 @@ class Product extends React.Component {
     this.setState({ product });
   };
 
-  handleRanting = (event) => {
+  handleChange = (event) => {
     event.preventDefault();
-    this.setState({ rating: Number(event.target.name) }, () => {
-      const { rating } = this.state;
-      localStorage.setItem('rating', rating);
-    });
-  };
-
-  handleChange = ({ target: { name, value } }) => {
+    const { target } = event;
+    const name = target.type === 'button' ? 'rating' : target.name;
+    const value = target.type === 'button' ? Number(target.name) : target.value;
     this.setState({ [name]: value }, () => {
-      localStorage.setItem(name, value);
+      const { product: { id }, email, rating, comment } = this.state;
+      const review = { id, email, rating, comment };
+      localStorage.setItem(id, JSON.stringify(review));
     });
-  };
+  }
 
   submitReview = (event) => {
     event.preventDefault();
-    const { email, rating, comment, reviewList } = this.state;
-    const list = [...reviewList, { email, rating, comment }];
-    localStorage.setItem('review', JSON.stringify(list));
+    const { product: { id }, email, rating, comment, reviewList } = this.state;
+    const list = [...reviewList, { id, email, rating, comment }];
+    localStorage.setItem('reviews', JSON.stringify(list));
     this.setState({ ...form });
-    Object.keys(form).forEach((name) => localStorage.removeItem(name));
+    localStorage.removeItem(id);
   };
 
   getReviews = () => {
-    if (localStorage.getItem('review')) {
-      const reviews = JSON.parse(localStorage.getItem('review'));
+    const { match: { params: { id } } } = this.props;
+    if (localStorage.getItem('reviews')) {
+      console.log('aq');
+      const reviews = JSON.parse(localStorage.getItem('reviews'))
+        .filter((review) => review.id === id);
+      console.log(reviews);
       this.setState({ reviewList: [...reviews] });
-    } else {
-      localStorage.setItem('review', JSON.stringify([]));
     }
   };
 
-  getCurrentComment = () => {
-    Object.keys(form).forEach((key) => {
-      if (localStorage.getItem(key)) {
-        if (key === 'rating') {
-          this.setState({ [key]: Number(localStorage.getItem(key)) });
-        } else {
-          this.setState({ [key]: localStorage.getItem(key) });
-        }
-      }
-    });
-  };
+  getUnfinishedComment = () => {
+    const { match: { params: { id } } } = this.props;
+    const review = JSON.parse(localStorage.getItem(id));
+    if (review) {
+      Object.keys(form).forEach((key) => {
+        this.setState({ [key]: review[key] });
+      });
+    }
+  }
 
   addCart = (id) => {
     if (!localStorage.getItem('cartIds')) localStorage.setItem('cartIds', '');
@@ -134,7 +132,7 @@ class Product extends React.Component {
             <RatingStar
               array={ rates }
               rating={ rating }
-              click={ this.handleRanting }
+              click={ this.handleChange }
             />
             <label htmlFor="comment">
               <textarea
