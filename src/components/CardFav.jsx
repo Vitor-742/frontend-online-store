@@ -20,22 +20,21 @@ class CardFav extends React.Component {
 
   handleClick(event) {
     const { name } = event.target;
-    const prevState = this.state.productQuantity
+    const { productQuantity } = this.state;
+    const prevState = productQuantity;
     if (name === 'add') {
-      this.setState({ productQuantity: prevState + 1 })
+      this.setState({ productQuantity: prevState + 1 });
       /* this.setState((state) => {
         this.setState({ productQuantity: state.productQuantity + 1 });
       }); */
-    } else {
-      if (prevState > 0) this.setState({ productQuantity: prevState - 1 })
-    }
+    } else if (prevState > 0) this.setState({ productQuantity: prevState - 1 });
   }
 
    removeItem = (event) => {
      const { func } = this.props;
-     const cartIds = JSON.parse(localStorage.getItem('cartIds'))
-       const filterIds = cartIds.filter((id) => id !== event.target.id);
-       localStorage.setItem('cartIds', JSON.stringify(filterIds));
+     const cartIds = JSON.parse(localStorage.getItem('cartIds'));
+     const filterIds = cartIds.filter((id) => id !== event.target.id);
+     localStorage.setItem('cartIds', JSON.stringify(filterIds));
      func();
    }
 

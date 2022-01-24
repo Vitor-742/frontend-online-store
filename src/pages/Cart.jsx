@@ -15,13 +15,13 @@ class Cart extends React.Component {
   }
 
   setarCartIds= () => {
-      const cartIds = JSON.parse(localStorage.getItem('cartIds'))
-      this.setState({ loading: false }, () => {
-        this.setState({
-          cartIds,
-          loading: true,
-        });
+    const cartIds = JSON.parse(localStorage.getItem('cartIds'));
+    this.setState({ loading: false }, () => {
+      this.setState({
+        cartIds,
+        loading: true,
       });
+    });
   }
 
   render() {

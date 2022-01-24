@@ -22,7 +22,7 @@ class Product extends React.Component {
   }
 
   addCart = (id) => {
-    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id]
+    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id];
     localStorage.setItem('cartIds', JSON.stringify(aux));
   }
 

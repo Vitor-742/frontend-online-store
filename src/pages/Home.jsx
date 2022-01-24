@@ -43,8 +43,8 @@ class Home extends React.Component {
   }
 
   addCart = (id) => {
-    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id]
-    console.log(aux)
+    const aux = [...JSON.parse(localStorage.getItem('cartIds')), id];
+    console.log(aux);
     localStorage.setItem('cartIds', JSON.stringify(aux));
   }
 
