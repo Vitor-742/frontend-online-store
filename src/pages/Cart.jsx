@@ -15,17 +15,13 @@ class Cart extends React.Component {
   }
 
   setarCartIds= () => {
-    if (typeof localStorage.getItem('cartIds') === 'string') {
-      const cartIds = localStorage.getItem('cartIds')
-        .split('-')
-        .filter((item) => item !== '');
-      this.setState({ loading: false }, () => {
-        this.setState({
-          cartIds,
-          loading: true,
-        });
+    const cartIds = JSON.parse(localStorage.getItem('cartIds'));
+    this.setState({ loading: false }, () => {
+      this.setState({
+        cartIds,
+        loading: true,
       });
-    }
+    });
   }
 
   render() {
