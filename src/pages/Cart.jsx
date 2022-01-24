@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import CardFav from '../components/CardFav';
 
 class Cart extends React.Component {
@@ -28,11 +29,12 @@ class Cart extends React.Component {
     const { cartIds, loading } = this.state;
     return (
       <div>
+        <Link to="/checkout" data-testid="checkout-products">Finalizar compra</Link>
         { cartIds.length > 0 && loading
-          ? cartIds.map((id) => (
+          ? cartIds.map((product) => (
             <CardFav
-              id={ id }
-              key={ id }
+              product={ product }
+              key={ product.id }
               func={ this.setarCartIds }
             />))
           : <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>}

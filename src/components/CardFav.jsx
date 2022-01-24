@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getProductDetails } from '../services/api';
 
 class CardFav extends React.Component {
   constructor() {
@@ -39,9 +38,9 @@ class CardFav extends React.Component {
    }
 
     montaArray = () => {
-      const { id } = this.props;
-      this.setState({ loading: false }, async () => {
-        const product = await getProductDetails(id);
+      const { product } = this.props;
+      this.setState({ loading: false }, () => {
+        /* const product = await getProductDetails(id); */
         this.setState({
           produto: product,
           loading: true,
@@ -50,7 +49,7 @@ class CardFav extends React.Component {
     }
 
     render() {
-      const { loading, produto, productQuantity } = this.state;// test
+      const { loading, produto, productQuantity } = this.state;
       return (
         <div>
           { loading && (
@@ -89,7 +88,9 @@ class CardFav extends React.Component {
 }
 
 CardFav.propTypes = {
-  id: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
   func: PropTypes.func.isRequired,
 };
 
